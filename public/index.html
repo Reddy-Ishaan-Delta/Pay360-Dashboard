@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Pay360 Product Insight Dashboard</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <script src="js/dashboard.js" defer></script>
+</head>
+<body>
+  <main class="canvas">
+
+    <!-- Report_Header (Delta blue banner) -->
+    <section class="card header-card" aria-labelledby="report-title">
+      <div class="header-top">
+        <div class="brand-block">
+          <div class="logo" role="img" aria-label="Delta">
+            <svg class="logo__widget" viewBox="0 0 24 22" aria-hidden="true" focusable="false">
+              <polygon points="12,0 0,21 12,15.5" fill="#E01933"/>
+              <polygon points="12,0 24,21 12,15.5" fill="#A3142B"/>
+            </svg>
+            <span class="logo__word" aria-hidden="true">DELTA</span>
+          </div>
+          <div>
+            <p class="eyebrow">September 1&ndash;30, 2026 &nbsp;|&nbsp; D30</p>
+            <div class="title-row">
+              <h1 class="report-title" id="report-title">Pay360 Product Insight Dashboard</h1>
+              <div class="help" id="help">
+                <button type="button" class="help__btn" id="helpBtn" aria-label="About this dashboard" aria-describedby="helpTip" aria-expanded="false" aria-controls="helpTip">?</button>
+                <p class="help__tip" id="helpTip" role="tooltip">An easy-to-scan dashboard that highlights performance, identifies risk areas, and helps investigate contributing drivers.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="pill">64% ADOPTION &middot; SUPPORTED LAUNCH</p>
+      </div>
+      <div class="tldr">
+        <p class="tldr__label">Project at a glance</p>
+        <p class="tldr__text">
+          <b>64% adoption</b> across ~3,840 eligible pilots in 30 days, and <b>40.5%</b> returned unprompted.
+          2,473 pilots generated 4,507 sessions (1.8 per user). Mobile likely leads once the userAgent bug is fixed.
+        </p>
+      </div>
+    </section>
+
+    <!-- KPI cards with expandable trend charts -->
+    <section class="kpi-row" aria-label="Key metrics">
+      <article class="kpi" data-series="eligiblePilots">
+        <div class="kpi__top">
+          <h2 class="kpi__label">Eligible Pilots</h2>
+          <button type="button" class="kpi__toggle" aria-expanded="false" aria-controls="chart-eligiblePilots" aria-label="Show eligible pilots trend, April to September">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><polyline points="6 9 12 15 18 9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <p class="kpi__value">~3,840</p>
+        <p class="kpi__sub">Eligible pilots across 3 bases (LAX, SEA, SLC)</p>
+        <div class="kpi__chart" id="chart-eligiblePilots" hidden></div>
+      </article>
+
+      <article class="kpi" data-series="adoption">
+        <div class="kpi__top">
+          <h2 class="kpi__label">Adoption Rate</h2>
+          <button type="button" class="kpi__toggle" aria-expanded="false" aria-controls="chart-adoption" aria-label="Show adoption rate trend, September 1 to 30">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><polyline points="6 9 12 15 18 9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <p class="kpi__value">64%</p>
+        <p class="kpi__sub">2,473 of ~3,840 pilots visited at least once</p>
+        <div class="kpi__chart" id="chart-adoption" hidden></div>
+      </article>
+
+      <article class="kpi" data-series="activation">
+        <div class="kpi__top">
+          <h2 class="kpi__label">Activation Rate</h2>
+          <button type="button" class="kpi__toggle" aria-expanded="false" aria-controls="chart-activation" aria-label="Show activation rate trend, September 1 to 30">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><polyline points="6 9 12 15 18 9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <p class="kpi__value">40.5%</p>
+        <p class="kpi__sub">1,001 pilots returned without any prompting</p>
+        <div class="kpi__chart" id="chart-activation" hidden></div>
+      </article>
+
+      <article class="kpi" data-series="retention">
+        <div class="kpi__top">
+          <h2 class="kpi__label">Retention (D60)</h2>
+          <button type="button" class="kpi__toggle" aria-expanded="false" aria-controls="chart-retention" aria-label="Show retention trend, April to September">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><polyline points="6 9 12 15 18 9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <p class="kpi__value">20%</p>
+        <p class="kpi__sub">D60 baseline set next cycle</p>
+        <div class="kpi__chart" id="chart-retention" hidden></div>
+      </article>
+    </section>
+
+    <!-- Engagement_Stats_Strip -->
+    <section class="card stats" aria-label="Engagement statistics">
+      <div class="stat"><p class="stat__value">4,507</p><p class="stat__label">Total Sessions</p></div>
+      <div class="stat"><p class="stat__value">1.8</p><p class="stat__label">Avg Sessions / User</p></div>
+      <div class="stat"><p class="stat__value">4.0</p><p class="stat__label">Avg Pages / Session</p></div>
+      <div class="stat"><p class="stat__value">9:58</p><p class="stat__label">Avg Session Time</p></div>
+      <div class="stat"><p class="stat__value">50 sec</p><p class="stat__label">Avg Engaged Time</p></div>
+    </section>
+
+    <section class="bottom-row">
+      <!-- Base penetration: pilots using Pay360 / total pilots per base (live from CSV) -->
+      <article class="card panel" aria-labelledby="base-title">
+        <h2 class="panel__title" id="base-title">Penetration by Base</h2>
+        <div id="baseRows"></div>
+        <p class="panel__foot">Pilots using Pay360 (activated) / total pilots per base &mdash; mock data. Base-level segmentation pending Quantum Metrics config.</p>
+      </article>
+
+      <!-- Device_Access_Breakdown_Static -->
+      <article class="card panel" aria-labelledby="device-title">
+        <h2 class="panel__title" id="device-title">Access by Device</h2>
+        <div class="stack stack--device" aria-hidden="true">
+          <span class="seg seg--mac"></span>
+          <span class="seg seg--iphone"></span>
+          <span class="seg seg--windows"></span>
+          <span class="seg seg--ipad"></span>
+          <span class="seg seg--other"></span>
+        </div>
+        <ul class="legend">
+          <li><span class="swatch sw--mac" aria-hidden="true"></span>Mac (incl. iPad*) 41% &middot; 1,845</li>
+          <li><span class="swatch sw--iphone" aria-hidden="true"></span>iPhone 38% &middot; 1,727</li>
+          <li><span class="swatch sw--windows" aria-hidden="true"></span>Windows Desktop 10% &middot; 459</li>
+          <li><span class="swatch sw--ipad" aria-hidden="true"></span>iPad (reported) 5% &middot; 235</li>
+          <li><span class="swatch sw--other" aria-hidden="true"></span>Other 5% &middot; 241</li>
+        </ul>
+        <p class="warn">&#9888; * Mac figure likely includes misattributed iPads due to a userAgent bug. Est. true split: ~70%+ Apple mobile, ~20% Mac/other desktop, ~10% Windows.</p>
+      </article>
+
+      <!-- Segment_Breakdown (live from CSV) -->
+      <article class="card panel" aria-labelledby="segment-title">
+        <h2 class="panel__title" id="segment-title">Pilot Segments</h2>
+        <div class="stack stack--segment" id="segmentStack" aria-hidden="true"></div>
+        <ul id="segmentRows"></ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

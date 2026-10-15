@@ -1,0 +1,213 @@
+/* Pay360 QM Dashboard — 1:1 port of the DAX "HTML Content" measures.
+   Values (colors, sizes, radii, padding) are taken directly from QM_Dashboard_HTML_Measures.md. */
+
+:root {
+  --navy: #003366;
+  --tint-1: #3D6690;
+  --tint-2: #7A99B3;
+  --tint-3: #B3C2D1;
+  --tint-4: #E6ECF2;
+  --red: #C01933;
+  --ink: #111827;
+  --ink-2: #374151;
+  --muted: #6B7280;
+  --faint: #9CA3AF;
+  --line: #D1D5DB;
+  --line-2: #E5E7EB;
+  --line-3: #F3F4F6;
+  --surface-2: #F9FAFB;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+h1, h2, p, ul { margin: 0; padding: 0; }
+ul { list-style: none; }
+
+body {
+  margin: 0;
+  background: #FFFFFF;
+  color: var(--ink);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.canvas {
+  display: grid;
+  gap: 16px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.card {
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+/* ---------- Report_Header (Delta blue banner) ---------- */
+.header-card { padding: 18px 20px; background: var(--navy); border-color: var(--navy); color: #FFFFFF; }
+.header-top {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px; margin-bottom: 14px;
+}
+.brand-block { display: flex; align-items: center; gap: 18px; }
+.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: #C9D6E3; text-transform: uppercase; }
+.title-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+.report-title { font-size: 20px; font-weight: 700; color: #FFFFFF; }
+.pill {
+  background: rgba(255, 255, 255, .14); color: #FFFFFF; border: 1px solid rgba(255, 255, 255, .28);
+  font-size: 11px; font-weight: 700; padding: 6px 14px; border-radius: 14px; white-space: nowrap;
+}
+.tldr {
+  display: flex; gap: 12px; padding: 10px 14px;
+  background: rgba(255, 255, 255, .08); border-left: 3px solid #E01933; border-radius: 6px;
+}
+.tldr__label { flex: 0 0 auto; font-size: 11px; font-weight: 700; letter-spacing: .06em; color: #FFFFFF; text-transform: uppercase; padding-top: 1px; }
+.tldr__text { font-size: 12.5px; color: #DCE5EE; line-height: 1.55; }
+.tldr__text b { color: #FFFFFF; }
+
+/* Delta logo (top of banner) */
+.logo { display: flex; align-items: center; gap: 8px; padding-right: 18px; border-right: 1px solid rgba(255, 255, 255, .28); color: #FFFFFF; }
+.logo__widget { width: 26px; height: 24px; }
+.logo__word { font-size: 18px; font-weight: 700; letter-spacing: .28em; }
+
+/* "?" help tooltip */
+.help { position: relative; display: inline-flex; }
+.help__btn {
+  display: inline-grid; place-items: center; width: 18px; height: 18px; padding: 0;
+  border: 1.5px solid rgba(255, 255, 255, .75); border-radius: 50%; background: transparent; color: #FFFFFF;
+  font: 700 11px/1 'Segoe UI', Arial, sans-serif; cursor: pointer;
+}
+.help__btn:hover, .help__btn[aria-expanded="true"] { background: #FFFFFF; color: var(--navy); }
+.help__btn:focus-visible { outline: 2px solid #FFFFFF; outline-offset: 2px; }
+.help__tip {
+  position: absolute; left: 50%; top: calc(100% + 10px); z-index: 20; width: 280px;
+  transform: translateX(-50%); padding: 10px 12px; border-radius: 6px;
+  background: var(--ink); color: #FFFFFF; font-size: 12px; font-weight: 400; line-height: 1.45;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
+  visibility: hidden; opacity: 0; transition: opacity .12s;
+}
+.help__tip::before {
+  content: ""; position: absolute; top: -5px; left: 50%; width: 10px; height: 10px; margin-left: -5px;
+  background: var(--ink); transform: rotate(45deg);
+}
+.help:hover .help__tip, .help__btn:focus-visible + .help__tip, .help.is-open .help__tip { visibility: visible; opacity: 1; }
+
+/* ---------- KPI cards ---------- */
+.kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: start; }
+.kpi {
+  position: relative; overflow: hidden;
+  background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px;
+  padding: 16px 18px 16px 26px; /* 18px + 8px inner margin from the DAX shell */
+}
+.kpi::before { content: ""; position: absolute; top: 0; left: 0; width: 5px; height: 100%; background: var(--navy); }
+.kpi__top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.kpi__label { font-size: 11px; font-weight: 700; letter-spacing: .06em; color: var(--muted); text-transform: uppercase; }
+.kpi__value { font-size: 34px; font-weight: 700; color: var(--ink); line-height: 1.15; margin-top: 4px; }
+.kpi__sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.kpi__toggle {
+  display: inline-grid; place-items: center; flex: 0 0 auto; width: 26px; height: 26px; margin: -4px -6px -4px 0; padding: 0;
+  border: 1px solid transparent; border-radius: 6px; background: transparent; color: var(--navy); cursor: pointer;
+}
+.kpi__toggle:hover { background: var(--tint-4); border-color: var(--tint-3); }
+.kpi__toggle:focus-visible { outline: 2px solid var(--navy); outline-offset: 1px; }
+.kpi__toggle svg { width: 18px; height: 18px; transition: transform .2s; }
+.kpi__toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+.kpi__chart { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line-2); }
+.kpi__chart-note { margin-top: 4px; font-size: 10px; color: var(--faint); }
+
+/* Line chart (SVG) */
+.chart { display: block; width: 100%; height: auto; overflow: visible; font-family: 'Segoe UI', Arial, sans-serif; }
+.chart__grid { stroke: var(--line-2); stroke-width: 1; }
+.chart__axis { stroke: var(--faint); stroke-width: 1; }
+.chart__tick { fill: var(--muted); font-size: 9px; }
+.chart__title { fill: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .03em; }
+.chart__area { fill: var(--navy); fill-opacity: .08; }
+.chart__line { fill: none; stroke: var(--navy); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.chart__dot { fill: #FFFFFF; stroke: var(--navy); stroke-width: 1.5; }
+.chart__dot--last { fill: var(--red); stroke: var(--red); }
+.chart__label { fill: var(--ink); font-size: 9.5px; font-weight: 700; }
+
+/* ---------- Engagement_Stats_Strip ---------- */
+.stats { display: flex; align-items: stretch; overflow: hidden; }
+.stat { flex: 1; text-align: center; padding: 14px 6px; }
+.stat + .stat { border-left: 1px solid var(--line-2); }
+.stat__value { font-size: 24px; font-weight: 700; color: var(--ink); }
+.stat__label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-top: 2px; }
+
+/* ---------- Bottom row ---------- */
+.bottom-row { display: grid; grid-template-columns: 1.5fr 1.1fr .8fr; gap: 16px; align-items: stretch; }
+.panel { padding: 16px 18px; }
+.panel__title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 10px; }
+.panel__foot { font-size: 11px; color: var(--faint); margin-top: 2px; }
+
+/* Base_Penetration_Bars */
+.base-row { margin-bottom: 14px; }
+.base-row__head { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--ink-2); margin-bottom: 4px; }
+.base-row__name { font-weight: 700; color: var(--ink); }
+.base-row__value { color: var(--muted); }
+.track { position: relative; height: 16px; width: 0; background: var(--line-2); border-radius: 8px; overflow: hidden; }
+.track__fill { position: absolute; top: 0; left: 0; height: 100%; width: 0; background: var(--navy); border-radius: 8px; }
+
+/* Stacked bars (device + segment) */
+.stack { display: flex; overflow: hidden; background: var(--line-3); white-space: nowrap; }
+.stack--device { height: 22px; border-radius: 6px; }
+.stack--segment { height: 14px; border-radius: 7px; margin-bottom: 10px; }
+.seg { display: block; height: 100%; }
+
+.seg--mac, .sw--mac { background: var(--navy); }
+.seg--iphone, .sw--iphone { background: var(--tint-1); }
+.seg--windows, .sw--windows { background: var(--tint-3); }
+.seg--ipad, .sw--ipad { background: var(--tint-2); }
+.seg--other, .sw--other { background: var(--red); }
+.seg--mac { width: 41%; }
+.seg--iphone { width: 38%; }
+.seg--windows { width: 10%; }
+.seg--ipad { width: 5%; }
+.seg--other { width: 5%; }
+
+/* Device legend */
+.legend { display: flex; flex-wrap: wrap; }
+.legend li { display: flex; align-items: center; gap: 6px; margin-right: 14px; margin-top: 6px; font-size: 11px; color: var(--ink-2); }
+.swatch { display: inline-block; flex: 0 0 auto; width: 9px; height: 9px; border-radius: 2px; }
+.warn { margin-top: 10px; padding: 8px 10px; background: #FEF3C7; border-radius: 6px; font-size: 11px; color: #92400E; line-height: 1.45; }
+
+/* Segment_Breakdown rows */
+.seg-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--line-3); }
+.seg-row:last-child { border-bottom: 0; }
+.seg-row__name { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--ink); font-weight: 600; }
+.seg-row__name .swatch { width: 10px; height: 10px; border-radius: 3px; }
+.seg-row__value { font-size: 12px; color: var(--muted); white-space: nowrap; }
+
+.empty { font-size: 12px; color: var(--muted); padding: 10px 12px; border: 1px dashed var(--line); border-radius: 6px; background: var(--surface-2); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1080px) {
+  .bottom-row { grid-template-columns: 1fr 1fr; }
+  .bottom-row > :first-child { grid-column: 1 / -1; }
+}
+@media (max-width: 900px) {
+  .kpi-row { grid-template-columns: repeat(2, 1fr); }
+  .stats { flex-wrap: wrap; }
+  .stat { flex: 1 1 33%; }
+  .stat:nth-child(4) { border-left: 0; }
+  .stat:nth-child(n+4) { border-top: 1px solid var(--line-2); }
+}
+@media (max-width: 600px) {
+  .canvas { padding: 12px; gap: 12px; }
+  .kpi-row, .bottom-row { grid-template-columns: 1fr; }
+  .stat { flex: 1 1 50%; }
+  .stat:nth-child(n) { border-left: 0; }
+  .stat:nth-child(even) { border-left: 1px solid var(--line-2); }
+  .stat:nth-child(n+3) { border-top: 1px solid var(--line-2); }
+  .tldr { flex-direction: column; gap: 4px; }
+  .brand-block { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .logo { padding-right: 0; border-right: 0; }
+  .help__tip { left: auto; right: -8px; transform: none; width: 240px; }
+  .help__tip::before { left: auto; right: 12px; }
+}
+
+@media print {
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .card, .kpi { break-inside: avoid; }
+}
