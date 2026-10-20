@@ -28,6 +28,14 @@
   const nf = new Intl.NumberFormat('en-US');
   const ratio = (n, d) => (d > 0 ? n / d : 0);
   const fmtPct = (v) => `${Math.round(v * 100)}%`;
+  const TREND_DATA = {
+    eligible: { label: 'Eligible pilots', unit: 'count', values: [12000, 13200, 14500, 15700, 17000, 18000] },
+    adoption: { label: 'Adoption rate', unit: 'percent', values: [42, 48, 53, 57, 61, 64] },
+    activation: { label: 'Activation rate', unit: 'percent', values: [22, 27, 31, 34, 37, 40.5] },
+    retention: { label: 'Retention', unit: 'percent', values: [12, 14, 16, 17, 18, 20] },
+  };
+  const TREND_MONTHS = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'];
+  const SVG_NS = 'http://www.w3.org/2000/svg';
 
   function el(tag, className, text) {
     const node = document.createElement(tag);
@@ -38,6 +46,91 @@
 
   function showEmpty(host, message) {
     host.replaceChildren(el('p', 'empty', message));
+  }
+
+  function svg(tag, attrs, text) {
+    const node = document.createElementNS(SVG_NS, tag);
+    Object.entries(attrs).forEach(([key, value]) => node.setAttribute(key, String(value)));
+    if (text != null) node.textContent = text;
+    return node;
+  }
+
+  function formatTrendValue(value, unit) {
+    return unit === 'percent' ? `${Number.isInteger(value) ? value : value.toFixed(1)}%` : nf.format(value);
+  }
+
+  function renderTrend(key) {
+    const trend = TREND_DATA[key];
+    const host = document.getElementById('trendChart');
+    const summary = document.getElementById('trendSummary');
+    const note = document.getElementById('trendNote');
+    const W = 900;
+    const H = 240;
+    const margin = { top: 18, right: 36, bottom: 38, left: 58 };
+    const plotWidth = W - margin.left - margin.right;
+    const plotHeight = H - margin.top - margin.bottom;
+    const max = trend.unit === 'percent' ? 100 : 20000;
+    const ticks = trend.unit === 'percent' ? [0, 25, 50, 75, 100] : [0, 5000, 10000, 15000, 20000];
+    const bandWidth = plotWidth / TREND_MONTHS.length;
+    const barWidth = Math.min(64, bandWidth * .56);
+    const y = (value) => margin.top + plotHeight - (value / max) * plotHeight;
+    const chart = svg('svg', {
+      class: 'chart',
+      viewBox: `0 0 ${W} ${H}`,
+      role: 'img',
+      'aria-label': `${trend.label} from April through September 2026`,
+    });
+
+    ticks.forEach((tick) => {
+      const py = y(tick);
+      chart.append(
+        svg('line', { class: 'chart__grid', x1: margin.left, x2: W - margin.right, y1: py, y2: py }),
+        svg('text', { class: 'chart__tick', x: margin.left - 8, y: py + 4, 'text-anchor': 'end' }, formatTrendValue(tick, trend.unit))
+      );
+    });
+    chart.append(
+      svg('line', { class: 'chart__axis', x1: margin.left, x2: margin.left, y1: margin.top, y2: margin.top + plotHeight }),
+      svg('line', { class: 'chart__axis', x1: margin.left, x2: W - margin.right, y1: margin.top + plotHeight, y2: margin.top + plotHeight })
+    );
+
+    trend.values.forEach((value, index) => {
+      const height = margin.top + plotHeight - y(value);
+      const x = margin.left + bandWidth * index + (bandWidth - barWidth) / 2;
+      const bar = svg('rect', {
+        class: 'chart__bar',
+        x,
+        y: y(value),
+        width: barWidth,
+        height,
+        rx: 3,
+        tabindex: 0,
+        role: 'button',
+        'aria-label': `${TREND_MONTHS[index]}: ${formatTrendValue(value, trend.unit)}`,
+      });
+      const selectBar = () => {
+        chart.querySelectorAll('.chart__bar--selected').forEach((selected) => {
+          selected.classList.remove('chart__bar--selected');
+        });
+        bar.classList.add('chart__bar--selected');
+        note.textContent = `${TREND_MONTHS[index]} 2026: ${formatTrendValue(value, trend.unit)} · Click another bar to compare.`;
+      };
+      bar.append(svg('title', {}, `${TREND_MONTHS[index]}: ${formatTrendValue(value, trend.unit)}`));
+      bar.addEventListener('click', selectBar);
+      bar.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          selectBar();
+        }
+      });
+      chart.append(
+        bar,
+        svg('text', { class: 'chart__label', x: x + barWidth / 2, y: y(value) - 6, 'text-anchor': 'middle' }, formatTrendValue(value, trend.unit)),
+        svg('text', { class: 'chart__tick', x: x + barWidth / 2, y: H - 12, 'text-anchor': 'middle' }, TREND_MONTHS[index])
+      );
+    });
+    host.replaceChildren(chart);
+    summary.textContent = `${trend.label}, April–September 2026`;
+    note.textContent = 'Illustrative month-over-month trend data. Select a bar to see its exact value.';
   }
 
   async function fetchText(url) {
@@ -190,10 +283,28 @@
     });
   }
 
+  function setupTrends() {
+    document.querySelectorAll('[data-trend]').forEach((control) => {
+      control.addEventListener('click', () => {
+        const key = control.dataset.trend;
+        if (!TREND_DATA[key]) return;
+        document.querySelectorAll('.trend-tab').forEach((tab) => {
+          const active = tab.dataset.trend === key;
+          tab.classList.toggle('is-active', active);
+          tab.setAttribute('aria-selected', String(active));
+        });
+        renderTrend(key);
+        document.getElementById('trendChart').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    });
+    renderTrend('eligible');
+  }
+
   /* ================= Boot ================= */
   async function init() {
     setupHelp();
     setupTerms();
+    setupTrends();
 
     const baseHost = document.getElementById('baseRows');
     const segHost = document.getElementById('segmentRows');

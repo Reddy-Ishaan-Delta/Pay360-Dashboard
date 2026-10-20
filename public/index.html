@@ -51,7 +51,7 @@
           <h2 class="kpi__label">Eligible Pilots</h2>
         </div>
         <p class="kpi__value">~18,000</p>
-        <!-- <p class="kpi__sub">Eligible pilots across 9 bases</p> -->
+        <button type="button" class="trend-link" data-trend="eligible">Trend analysis</button>
       </article>
 
       <article class="kpi">
@@ -59,7 +59,7 @@
           <h2 class="kpi__label">Adoption Rate</h2>
         </div>
         <p class="kpi__value">64%</p>
-        <!-- <p class="kpi__sub">11,592 of ~18,000 pilots visited at least once</p> -->
+        <button type="button" class="trend-link" data-trend="adoption">Trend analysis</button>
       </article>
 
       <article class="kpi">
@@ -67,7 +67,7 @@
           <h2 class="kpi__label">Activation Rate</h2>
         </div>
         <p class="kpi__value">40.5%</p>
-        <!-- <p class="kpi__sub">4,692 pilots returned without any prompting</p> -->
+        <button type="button" class="trend-link" data-trend="activation">Trend analysis</button>
       </article>
 
       <article class="kpi">
@@ -75,7 +75,7 @@
           <h2 class="kpi__label">Retention</h2>
         </div>
         <p class="kpi__value">20%</p>
-        <!-- <p class="kpi__sub">D60 baseline set next cycle</p> -->
+        <button type="button" class="trend-link" data-trend="retention">Trend analysis</button>
       </article>
     </section>
 
@@ -88,7 +88,7 @@
       <div class="stat"><p class="stat__value">50 sec</p><p class="stat__label">Avg Engaged Time</p></div>
     </section>
 
-    <section class="bottom-row">
+    <section class="analysis-row">
       <!-- Base penetration: pilots using Pay360 / total pilots per base (live from CSV) -->
       <article class="card panel" aria-labelledby="base-title">
         <h2 class="panel__title" id="base-title">Penetration by Base</h2>
@@ -98,6 +98,26 @@
         <p class="panel__foot">Pilots using Pay360 (activated) / total pilots per base</p>
       </article>
 
+      <section class="card trend-panel" aria-labelledby="trend-title">
+        <div class="trend-panel__header">
+          <div>
+            <p class="eyebrow trend-panel__eyebrow">Performance over time</p>
+            <h2 class="panel__title" id="trend-title">Trend Analysis</h2>
+          </div>
+          <p class="trend-panel__summary" id="trendSummary">Eligible pilots, April–September 2026</p>
+        </div>
+        <div class="trend-tabs" role="tablist" aria-label="Trend metrics">
+          <button type="button" class="trend-tab is-active" role="tab" aria-selected="true" data-trend="eligible">Eligible Pilots</button>
+          <button type="button" class="trend-tab" role="tab" aria-selected="false" data-trend="adoption">Adoption</button>
+          <button type="button" class="trend-tab" role="tab" aria-selected="false" data-trend="activation">Activation</button>
+          <button type="button" class="trend-tab" role="tab" aria-selected="false" data-trend="retention">Retention</button>
+        </div>
+        <div class="trend-chart" id="trendChart" role="img" aria-label="Eligible pilots trend chart"></div>
+        <p class="trend-panel__note" id="trendNote">Illustrative month-over-month trend data.</p>
+      </section>
+    </section>
+
+    <section class="details-row">
       <!-- Device_Access_Breakdown_Static -->
       <article class="card panel" aria-labelledby="device-title">
         <h2 class="panel__title" id="device-title">Access by Device</h2>
@@ -122,6 +142,24 @@
         <h2 class="panel__title" id="segment-title">Pilot Segments</h2>
         <div class="stack stack--segment" id="segmentStack" aria-hidden="true"></div>
         <ul id="segmentRows"></ul>
+      </article>
+
+      <article class="card panel device-split" aria-labelledby="device-split-title">
+        <h2 class="panel__title" id="device-split-title">Device Split</h2>
+        <div class="device-split__bar" role="img" aria-label="Mac 41 percent, iPhone 38 percent, Windows desktop 10 percent, iPad 5 percent, other 5 percent">
+          <span class="seg--mac" title="Mac (incl. iPad): 41%"></span>
+          <span class="seg--iphone" title="iPhone: 38%"></span>
+          <span class="seg--windows" title="Windows desktop: 10%"></span>
+          <span class="seg--ipad" title="iPad: 5%"></span>
+          <span class="seg--other" title="Other: 5%"></span>
+        </div>
+        <div class="device-split__labels">
+          <span><i class="swatch sw--mac"></i>Mac 41%</span>
+          <span><i class="swatch sw--iphone"></i>iPhone 38%</span>
+          <span><i class="swatch sw--windows"></i>Windows 10%</span>
+          <span><i class="swatch sw--ipad"></i>iPad 5%</span>
+          <span><i class="swatch sw--other"></i>Other 5%</span>
+        </div>
       </article>
     </section>
   </main>
