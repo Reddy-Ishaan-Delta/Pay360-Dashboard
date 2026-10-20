@@ -28,6 +28,14 @@
   const nf = new Intl.NumberFormat('en-US');
   const ratio = (n, d) => (d > 0 ? n / d : 0);
   const fmtPct = (v) => `${Math.round(v * 100)}%`;
+  const TREND_DATA = {
+    eligible: { label: 'Eligible pilots', unit: 'count', values: [12000, 13200, 14500, 15700, 17000, 18000] },
+    adoption: { label: 'Adoption rate', unit: 'percent', values: [42, 48, 53, 57, 61, 64] },
+    activation: { label: 'Activation rate', unit: 'percent', values: [22, 27, 31, 34, 37, 40.5] },
+    retention: { label: 'Retention', unit: 'percent', values: [12, 14, 16, 17, 18, 20] },
+  };
+  const TREND_MONTHS = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'];
+  const SVG_NS = 'http://www.w3.org/2000/svg';
 
   function el(tag, className, text) {
     const node = document.createElement(tag);
@@ -38,6 +46,101 @@
 
   function showEmpty(host, message) {
     host.replaceChildren(el('p', 'empty', message));
+  }
+
+  function svg(tag, attrs, text) {
+    const node = document.createElementNS(SVG_NS, tag);
+    Object.entries(attrs).forEach(([key, value]) => node.setAttribute(key, String(value)));
+    if (text != null) node.textContent = text;
+    return node;
+  }
+
+  function formatTrendValue(value, unit) {
+    return unit === 'percent' ? `${Number.isInteger(value) ? value : value.toFixed(1)}%` : nf.format(value);
+  }
+
+  function renderTrend(key) {
+    const trend = TREND_DATA[key];
+    const host = document.getElementById('trendChart');
+    const summary = document.getElementById('trendSummary');
+    const note = document.getElementById('trendNote');
+    const W = 900;
+    const H = 240;
+    const margin = { top: 18, right: 36, bottom: 34, left: 58 };
+    const plotWidth = W - margin.left - margin.right;
+    const plotHeight = H - margin.top - margin.bottom;
+    const max = trend.unit === 'percent' ? 100 : 20000;
+    const ticks = trend.unit === 'percent' ? [0, 25, 50, 75, 100] : [0, 5000, 10000, 15000, 20000];
+    const x = (index) => margin.left + (index / (TREND_MONTHS.length - 1)) * plotWidth;
+    const y = (value) => margin.top + plotHeight - (value / max) * plotHeight;
+    const points = trend.values.map((value, index) => [x(index), y(value)]);
+    const linePath = points.map(([px, py], index) => `${index ? 'L' : 'M'}${px},${py}`).join(' ');
+    const areaPath = `${linePath} L${x(points.length - 1)},${margin.top + plotHeight} L${x(0)},${margin.top + plotHeight} Z`;
+    const chart = svg('svg', {
+      class: 'chart',
+      viewBox: `0 0 ${W} ${H}`,
+      role: 'img',
+      'aria-label': `${trend.label} from April through September 2026`,
+    });
+
+    ticks.forEach((tick) => {
+      const py = y(tick);
+      chart.append(
+        svg('line', { class: 'chart__grid', x1: margin.left, x2: W - margin.right, y1: py, y2: py }),
+        svg('text', { class: 'chart__tick', x: margin.left - 8, y: py + 4, 'text-anchor': 'end' }, formatTrendValue(tick, trend.unit))
+      );
+    });
+    chart.append(
+      svg('line', { class: 'chart__axis', x1: margin.left, x2: margin.left, y1: margin.top, y2: margin.top + plotHeight }),
+      svg('line', { class: 'chart__axis', x1: margin.left, x2: W - margin.right, y1: margin.top + plotHeight, y2: margin.top + plotHeight }),
+      svg('path', { class: 'chart__area', d: areaPath }),
+      svg('path', { class: 'chart__line', d: linePath })
+    );
+    TREND_MONTHS.forEach((month, index) => {
+      chart.append(svg('text', {
+        class: 'chart__tick',
+        x: x(index),
+        y: H - 10,
+        'text-anchor': 'middle',
+      }, month));
+    });
+    points.forEach(([px, py], index) => {
+      const dot = svg('circle', {
+        class: index === points.length - 1 ? 'chart__dot chart__dot--last' : 'chart__dot',
+        cx: px,
+        cy: py,
+        r: 4,
+        tabindex: 0,
+        role: 'button',
+        'aria-label': `${TREND_MONTHS[index]}: ${formatTrendValue(trend.values[index], trend.unit)}`,
+      });
+      dot.append(svg('title', {}, `${TREND_MONTHS[index]}: ${formatTrendValue(trend.values[index], trend.unit)}`));
+      const selectPoint = () => {
+        chart.querySelectorAll('.chart__dot--selected').forEach((selected) => {
+          selected.classList.remove('chart__dot--selected');
+        });
+        dot.classList.add('chart__dot--selected');
+        note.textContent = `${TREND_MONTHS[index]} 2026: ${formatTrendValue(trend.values[index], trend.unit)} · Click another point to compare.`;
+      };
+      dot.addEventListener('click', selectPoint);
+      dot.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          selectPoint();
+        }
+      });
+      chart.append(dot);
+    });
+    const last = points[points.length - 1];
+    chart.append(svg('text', {
+      class: 'chart__label',
+      x: last[0] - 4,
+      y: last[1] - 10,
+      'text-anchor': 'end',
+    }, formatTrendValue(trend.values[trend.values.length - 1], trend.unit)));
+    host.replaceChildren(chart);
+    summary.textContent = `${trend.label}, April–September 2026`;
+    note.textContent = 'Illustrative month-over-month trend data.';
   }
 
   async function fetchText(url) {
@@ -190,10 +293,28 @@
     });
   }
 
+  function setupTrends() {
+    document.querySelectorAll('[data-trend]').forEach((control) => {
+      control.addEventListener('click', () => {
+        const key = control.dataset.trend;
+        if (!TREND_DATA[key]) return;
+        document.querySelectorAll('.trend-tab').forEach((tab) => {
+          const active = tab.dataset.trend === key;
+          tab.classList.toggle('is-active', active);
+          tab.setAttribute('aria-selected', String(active));
+        });
+        renderTrend(key);
+        document.getElementById('trendChart').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    });
+    renderTrend('eligible');
+  }
+
   /* ================= Boot ================= */
   async function init() {
     setupHelp();
     setupTerms();
+    setupTrends();
 
     const baseHost = document.getElementById('baseRows');
     const segHost = document.getElementById('segmentRows');
