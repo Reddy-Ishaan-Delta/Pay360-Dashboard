@@ -23,7 +23,7 @@
             <span class="logo__word" aria-hidden="true">DELTA</span>
           </div>
           <div>
-            <p class="eyebrow">September 1&ndash;30, 2026 &nbsp;|&nbsp; D30</p>
+            <p class="eyebrow">October 1&ndash;30, 2026 &nbsp;|&nbsp; D30</p>
             <div class="title-row">
               <h1 class="report-title" id="report-title">Pay360 Product Insight Dashboard</h1>
               <div class="help" id="help">
@@ -33,71 +33,55 @@
             </div>
           </div>
         </div>
-        <p class="pill">64% ADOPTION &middot; SUPPORTED LAUNCH</p>
+        <button type="button" class="pill terms-trigger" id="termsBtn">TERMS &amp; DEFINITIONS</button>
       </div>
       <div class="tldr">
         <p class="tldr__label">Project at a glance</p>
         <p class="tldr__text">
-          <b>64% adoption</b> across ~3,840 eligible pilots in 30 days, and <b>40.5%</b> returned unprompted.
-          2,473 pilots generated 4,507 sessions (1.8 per user). Mobile likely leads once the userAgent bug is fixed.
+          <b>~18,000 eligible pilots</b> across 9 bases, and <b>40.5%</b> returned unprompted.
+          11,592 pilots generated 21,126 sessions (1.8 per user). Mobile likely leads once the userAgent bug is fixed.
         </p>
       </div>
     </section>
 
-    <!-- KPI cards with expandable trend charts -->
+    <!-- KPI cards -->
     <section class="kpi-row" aria-label="Key metrics">
-      <article class="kpi" data-series="eligiblePilots">
+      <article class="kpi">
         <div class="kpi__top">
           <h2 class="kpi__label">Eligible Pilots</h2>
-          <button type="button" class="kpi__toggle" aria-expanded="false" aria-controls="chart-eligiblePilots" aria-label="Show eligible pilots trend, April to September">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><polyline points="6 9 12 15 18 9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
         </div>
-        <p class="kpi__value">~3,840</p>
-        <p class="kpi__sub">Eligible pilots across 3 bases (LAX, SEA, SLC)</p>
-        <div class="kpi__chart" id="chart-eligiblePilots" hidden></div>
+        <p class="kpi__value">~18,000</p>
+        <!-- <p class="kpi__sub">Eligible pilots across 9 bases</p> -->
       </article>
 
-      <article class="kpi" data-series="adoption">
+      <article class="kpi">
         <div class="kpi__top">
           <h2 class="kpi__label">Adoption Rate</h2>
-          <button type="button" class="kpi__toggle" aria-expanded="false" aria-controls="chart-adoption" aria-label="Show adoption rate trend, September 1 to 30">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><polyline points="6 9 12 15 18 9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
         </div>
         <p class="kpi__value">64%</p>
-        <p class="kpi__sub">2,473 of ~3,840 pilots visited at least once</p>
-        <div class="kpi__chart" id="chart-adoption" hidden></div>
+        <!-- <p class="kpi__sub">11,592 of ~18,000 pilots visited at least once</p> -->
       </article>
 
-      <article class="kpi" data-series="activation">
+      <article class="kpi">
         <div class="kpi__top">
           <h2 class="kpi__label">Activation Rate</h2>
-          <button type="button" class="kpi__toggle" aria-expanded="false" aria-controls="chart-activation" aria-label="Show activation rate trend, September 1 to 30">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><polyline points="6 9 12 15 18 9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
         </div>
         <p class="kpi__value">40.5%</p>
-        <p class="kpi__sub">1,001 pilots returned without any prompting</p>
-        <div class="kpi__chart" id="chart-activation" hidden></div>
+        <!-- <p class="kpi__sub">4,692 pilots returned without any prompting</p> -->
       </article>
 
-      <article class="kpi" data-series="retention">
+      <article class="kpi">
         <div class="kpi__top">
-          <h2 class="kpi__label">Retention (D60)</h2>
-          <button type="button" class="kpi__toggle" aria-expanded="false" aria-controls="chart-retention" aria-label="Show retention trend, April to September">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><polyline points="6 9 12 15 18 9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
+          <h2 class="kpi__label">Retention</h2>
         </div>
         <p class="kpi__value">20%</p>
-        <p class="kpi__sub">D60 baseline set next cycle</p>
-        <div class="kpi__chart" id="chart-retention" hidden></div>
+        <!-- <p class="kpi__sub">D60 baseline set next cycle</p> -->
       </article>
     </section>
 
     <!-- Engagement_Stats_Strip -->
     <section class="card stats" aria-label="Engagement statistics">
-      <div class="stat"><p class="stat__value">4,507</p><p class="stat__label">Total Sessions</p></div>
+      <div class="stat"><p class="stat__value">21,126</p><p class="stat__label">Total Sessions</p></div>
       <div class="stat"><p class="stat__value">1.8</p><p class="stat__label">Avg Sessions / User</p></div>
       <div class="stat"><p class="stat__value">4.0</p><p class="stat__label">Avg Pages / Session</p></div>
       <div class="stat"><p class="stat__value">9:58</p><p class="stat__label">Avg Session Time</p></div>
@@ -108,8 +92,10 @@
       <!-- Base penetration: pilots using Pay360 / total pilots per base (live from CSV) -->
       <article class="card panel" aria-labelledby="base-title">
         <h2 class="panel__title" id="base-title">Penetration by Base</h2>
-        <div id="baseRows"></div>
-        <p class="panel__foot">Pilots using Pay360 (activated) / total pilots per base &mdash; mock data. Base-level segmentation pending Quantum Metrics config.</p>
+        <div class="base-scroll" tabindex="0" aria-label="Penetration by base details">
+          <div id="baseRows"></div>
+        </div>
+        <p class="panel__foot">Pilots using Pay360 (activated) / total pilots per base</p>
       </article>
 
       <!-- Device_Access_Breakdown_Static -->
@@ -123,13 +109,12 @@
           <span class="seg seg--other"></span>
         </div>
         <ul class="legend">
-          <li><span class="swatch sw--mac" aria-hidden="true"></span>Mac (incl. iPad*) 41% &middot; 1,845</li>
-          <li><span class="swatch sw--iphone" aria-hidden="true"></span>iPhone 38% &middot; 1,727</li>
-          <li><span class="swatch sw--windows" aria-hidden="true"></span>Windows Desktop 10% &middot; 459</li>
-          <li><span class="swatch sw--ipad" aria-hidden="true"></span>iPad (reported) 5% &middot; 235</li>
-          <li><span class="swatch sw--other" aria-hidden="true"></span>Other 5% &middot; 241</li>
+          <li><span class="swatch sw--mac" aria-hidden="true"></span>Mac (incl. iPad*) 41% &middot; 8,648</li>
+          <li><span class="swatch sw--iphone" aria-hidden="true"></span>iPhone 38% &middot; 8,095</li>
+          <li><span class="swatch sw--windows" aria-hidden="true"></span>Windows Desktop 10% &middot; 2,152</li>
+          <li><span class="swatch sw--ipad" aria-hidden="true"></span>iPad (reported) 5% &middot; 1,102</li>
+          <li><span class="swatch sw--other" aria-hidden="true"></span>Other 5% &middot; 1,130</li>
         </ul>
-        <p class="warn">&#9888; * Mac figure likely includes misattributed iPads due to a userAgent bug. Est. true split: ~70%+ Apple mobile, ~20% Mac/other desktop, ~10% Windows.</p>
       </article>
 
       <!-- Segment_Breakdown (live from CSV) -->
@@ -140,5 +125,17 @@
       </article>
     </section>
   </main>
+  <dialog class="terms-dialog" id="termsDialog" aria-labelledby="terms-title">
+    <div class="terms-dialog__header">
+      <h2 id="terms-title">Metric definitions</h2>
+      <button type="button" class="terms-dialog__close" id="termsClose" aria-label="Close metric definitions">&times;</button>
+    </div>
+    <dl class="terms-list">
+      <div><dt>Unqiue Users</dt><dd>Distinct pilots who visited at least once</dd></div>
+      <div><dt>Adoption rate</dt><dd>Unique users / eligible pilot population</dd></div>
+      <div><dt>Activation rate</dt><dd>Distinct return users with visit ≥ 2 / unique users</dd></div>
+      <div><dt>Retention</dt><dd>Month-2 metric; April cohort tracked into May</dd></div>
+    </dl>
+  </dialog>
 </body>
 </html>

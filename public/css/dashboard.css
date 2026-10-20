@@ -39,6 +39,7 @@ body {
 }
 
 .card {
+  min-width: 0;
   background: #FFFFFF;
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -58,6 +59,8 @@ body {
   background: rgba(255, 255, 255, .14); color: #FFFFFF; border: 1px solid rgba(255, 255, 255, .28);
   font-size: 11px; font-weight: 700; padding: 6px 14px; border-radius: 14px; white-space: nowrap;
 }
+.terms-trigger { cursor: pointer; }
+.terms-trigger:hover, .terms-trigger:focus-visible { background: #FFFFFF; color: var(--navy); }
 .tldr {
   display: flex; gap: 12px; padding: 10px 14px;
   background: rgba(255, 255, 255, .08); border-left: 3px solid #E01933; border-radius: 6px;
@@ -94,9 +97,10 @@ body {
 .help:hover .help__tip, .help__btn:focus-visible + .help__tip, .help.is-open .help__tip { visibility: visible; opacity: 1; }
 
 /* ---------- KPI cards ---------- */
-.kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; align-items: start; }
+.kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 16px; align-items: stretch; }
 .kpi {
   position: relative; overflow: hidden;
+  min-width: 0;
   background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px;
   padding: 16px 18px 16px 26px; /* 18px + 8px inner margin from the DAX shell */
 }
@@ -105,29 +109,6 @@ body {
 .kpi__label { font-size: 11px; font-weight: 700; letter-spacing: .06em; color: var(--muted); text-transform: uppercase; }
 .kpi__value { font-size: 34px; font-weight: 700; color: var(--ink); line-height: 1.15; margin-top: 4px; }
 .kpi__sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
-.kpi__toggle {
-  display: inline-grid; place-items: center; flex: 0 0 auto; width: 26px; height: 26px; margin: -4px -6px -4px 0; padding: 0;
-  border: 1px solid transparent; border-radius: 6px; background: transparent; color: var(--navy); cursor: pointer;
-}
-.kpi__toggle:hover { background: var(--tint-4); border-color: var(--tint-3); }
-.kpi__toggle:focus-visible { outline: 2px solid var(--navy); outline-offset: 1px; }
-.kpi__toggle svg { width: 18px; height: 18px; transition: transform .2s; }
-.kpi__toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
-.kpi__chart { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line-2); }
-.kpi__chart-note { margin-top: 4px; font-size: 10px; color: var(--faint); }
-
-/* Line chart (SVG) */
-.chart { display: block; width: 100%; height: auto; overflow: visible; font-family: 'Segoe UI', Arial, sans-serif; }
-.chart__grid { stroke: var(--line-2); stroke-width: 1; }
-.chart__axis { stroke: var(--faint); stroke-width: 1; }
-.chart__tick { fill: var(--muted); font-size: 9px; }
-.chart__title { fill: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .03em; }
-.chart__area { fill: var(--navy); fill-opacity: .08; }
-.chart__line { fill: none; stroke: var(--navy); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
-.chart__dot { fill: #FFFFFF; stroke: var(--navy); stroke-width: 1.5; }
-.chart__dot--last { fill: var(--red); stroke: var(--red); }
-.chart__label { fill: var(--ink); font-size: 9.5px; font-weight: 700; }
-
 /* ---------- Engagement_Stats_Strip ---------- */
 .stats { display: flex; align-items: stretch; overflow: hidden; }
 .stat { flex: 1; text-align: center; padding: 14px 6px; }
@@ -146,6 +127,8 @@ body {
 .base-row__head { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--ink-2); margin-bottom: 4px; }
 .base-row__name { font-weight: 700; color: var(--ink); }
 .base-row__value { color: var(--muted); }
+.base-scroll { max-height: 300px; overflow-y: auto; padding-right: 8px; }
+.base-scroll:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
 .track { position: relative; height: 16px; width: 0; background: var(--line-2); border-radius: 8px; overflow: hidden; }
 .track__fill { position: absolute; top: 0; left: 0; height: 100%; width: 0; background: var(--navy); border-radius: 8px; }
 
@@ -170,7 +153,26 @@ body {
 .legend { display: flex; flex-wrap: wrap; }
 .legend li { display: flex; align-items: center; gap: 6px; margin-right: 14px; margin-top: 6px; font-size: 11px; color: var(--ink-2); }
 .swatch { display: inline-block; flex: 0 0 auto; width: 9px; height: 9px; border-radius: 2px; }
-.warn { margin-top: 10px; padding: 8px 10px; background: #FEF3C7; border-radius: 6px; font-size: 11px; color: #92400E; line-height: 1.45; }
+
+.terms-dialog {
+  width: min(560px, calc(100% - 32px)); padding: 0; border: 0; border-radius: 10px;
+  color: var(--ink); box-shadow: 0 12px 40px rgba(0, 0, 0, .3);
+}
+.terms-dialog::backdrop { background: rgba(17, 24, 39, .55); }
+.terms-dialog__header {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 16px 18px; background: var(--navy); color: #FFFFFF;
+}
+.terms-dialog__header h2 { font-size: 16px; }
+.terms-dialog__close {
+  width: 28px; height: 28px; border: 1px solid rgba(255, 255, 255, .6); border-radius: 50%;
+  background: transparent; color: #FFFFFF; font-size: 22px; line-height: 1; cursor: pointer;
+}
+.terms-list { padding: 8px 18px 16px; }
+.terms-list > div { padding: 10px 0; border-bottom: 1px solid var(--line-2); }
+.terms-list > div:last-child { border-bottom: 0; }
+.terms-list dt { font-size: 12px; font-weight: 700; color: var(--navy); }
+.terms-list dd { margin: 3px 0 0; font-size: 12px; line-height: 1.45; color: var(--ink-2); }
 
 /* Segment_Breakdown rows */
 .seg-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--line-3); }
@@ -187,7 +189,6 @@ body {
   .bottom-row > :first-child { grid-column: 1 / -1; }
 }
 @media (max-width: 900px) {
-  .kpi-row { grid-template-columns: repeat(2, 1fr); }
   .stats { flex-wrap: wrap; }
   .stat { flex: 1 1 33%; }
   .stat:nth-child(4) { border-left: 0; }
@@ -195,7 +196,7 @@ body {
 }
 @media (max-width: 600px) {
   .canvas { padding: 12px; gap: 12px; }
-  .kpi-row, .bottom-row { grid-template-columns: 1fr; }
+  .bottom-row { grid-template-columns: 1fr; }
   .stat { flex: 1 1 50%; }
   .stat:nth-child(n) { border-left: 0; }
   .stat:nth-child(even) { border-left: 1px solid var(--line-2); }
