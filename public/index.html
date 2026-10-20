@@ -51,7 +51,7 @@
           <h2 class="kpi__label">Eligible Pilots</h2>
         </div>
         <p class="kpi__value">~18,000</p>
-        <!-- <p class="kpi__sub">Eligible pilots across 9 bases</p> -->
+        <button type="button" class="trend-link" data-trend="eligible">See trend</button>
       </article>
 
       <article class="kpi">
@@ -59,7 +59,7 @@
           <h2 class="kpi__label">Adoption Rate</h2>
         </div>
         <p class="kpi__value">64%</p>
-        <!-- <p class="kpi__sub">11,592 of ~18,000 pilots visited at least once</p> -->
+        <button type="button" class="trend-link" data-trend="adoption">See trend</button>
       </article>
 
       <article class="kpi">
@@ -67,7 +67,7 @@
           <h2 class="kpi__label">Activation Rate</h2>
         </div>
         <p class="kpi__value">40.5%</p>
-        <!-- <p class="kpi__sub">4,692 pilots returned without any prompting</p> -->
+        <button type="button" class="trend-link" data-trend="activation">See trend</button>
       </article>
 
       <article class="kpi">
@@ -75,7 +75,7 @@
           <h2 class="kpi__label">Retention</h2>
         </div>
         <p class="kpi__value">20%</p>
-        <!-- <p class="kpi__sub">D60 baseline set next cycle</p> -->
+        <button type="button" class="trend-link" data-trend="retention">See trend</button>
       </article>
     </section>
 
@@ -136,6 +136,18 @@
       <div><dt>Activation rate</dt><dd>Distinct return users with visit ≥ 2 / unique users</dd></div>
       <div><dt>Retention</dt><dd>Month-2 metric; April cohort tracked into May</dd></div>
     </dl>
+  </dialog>
+  <dialog class="trend-dialog" id="trendDialog" aria-labelledby="trend-dialog-title">
+    <div class="trend-dialog__header">
+      <div>
+        <p class="trend-dialog__eyebrow">Performance over time</p>
+        <h2 id="trend-dialog-title">Trend Analysis</h2>
+      </div>
+      <button type="button" class="trend-dialog__close" id="trendClose" aria-label="Close trend analysis">&times;</button>
+    </div>
+    <p class="trend-dialog__summary" id="trendDialogSummary"></p>
+    <div class="trend-dialog__chart" id="trendDialogChart" role="img" aria-label="KPI trend chart"></div>
+    <p class="trend-dialog__note" id="trendDialogNote">Illustrative month-over-month trend data. Select a bar to see its exact value.</p>
   </dialog>
 </body>
 </html>
